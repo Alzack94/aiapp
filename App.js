@@ -11,6 +11,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import Assist from './Assist';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
 const App = () => (
   <View style={styles.container}>
     <Text style={styles.welcome}>
-          Welcome to React Native! ctr+m for hot reload.
+          Welcome to React Native! ctr+m for hot reload!
     </Text>
     <Text style={styles.instructions}>
         To get started, edit App.js
@@ -49,6 +50,7 @@ const App = () => (
     <Text style={styles.instructions}>
       {instructions}
     </Text>
+    <Assist />
   </View>
 );
 
