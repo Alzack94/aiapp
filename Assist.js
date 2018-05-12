@@ -3,6 +3,8 @@ import {
   StyleSheet,
   Button,
   Text,
+  TextInput,
+  Alert,
   ToastAndroid,
   View,
 } from 'react-native';
@@ -22,14 +24,18 @@ class Assist extends Component {
   constructor(props) {
     super(props);
     this.onSpeak = this.onSpeak.bind(this);
+    this.onPressButton = this.onPressButton.bind(this);
     this.getDialogFlow = this.getDialogFlow.bind(this);
     this.state = { showText: null };
+    this.state = { text: null };
   }
 
   async onSpeak() {
     try {
       const spokenText = await SpeechAndroid.startSpeech('talk to Ultron', SpeechAndroid.ENGLISH);
-
+      this.setState({
+        showText: spokenText,
+      });
       const dialogflowResponse = await this.getDialogFlow(spokenText);
       if (this.state.showText) {
         Tts.speak(dialogflowResponse.result.fulfillment.speech);
@@ -50,6 +56,12 @@ class Assist extends Component {
           break;
       }
     }
+  }
+
+  async onPressButton() {
+    this.message = 'You tapped the button';
+    Tts.speak(this.message);
+    Alert.alert(this.message);
   }
 
   async getDialogFlow(msg) {
@@ -82,9 +94,21 @@ class Assist extends Component {
     return (
       <View style={styles.container}>
         <Text>{this.state.showText} </Text>
+        <Text>{this.state.text} </Text>
         <Button
           onPress={this.onSpeak}
           title="Press to talk"
+          color="#37B6DF"
+          accessibilityLabel="Press to talk"
+        />
+        <TextInput
+          style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+          onChangeText={(text) => { this.setState({ text }); }}
+          value={this.state.text}
+        />
+        <Button
+          onPress={this.onPressButton}
+          title="Press to disp"
           color="#37B6DF"
           accessibilityLabel="Press to talk"
         />
