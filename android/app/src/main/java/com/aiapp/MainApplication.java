@@ -3,6 +3,8 @@ package com.aiapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import de.innfactory.apiai.RNApiAiPackage;
+import de.innfactory.apiai.RNApiAiPackage;
 import com.ninty.system.setting.SystemSettingPackage;
 import net.no_mad.tts.TextToSpeechPackage;
 import com.facebook.react.ReactNativeHost;
@@ -26,6 +28,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNApiAiPackage(),
             new SystemSettingPackage(),
           new TextToSpeechPackage(),
 		  new VoicePackage()

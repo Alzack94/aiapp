@@ -36,6 +36,10 @@ node_modules/
 npm-debug.log
 yarn-error.log
 
+# file
+#
+chatbot-48397-4b38bfb733d7.json
+
 # BUCK
 buck-out/
 \.buckd/
