@@ -11,6 +11,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import R from './components/routing';
 import Assist from './Assist';
 
 const instructions = Platform.select({
@@ -22,8 +23,8 @@ const instructions = Platform.select({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#F5FCFF',
+    flex: 3,
+    // backgroundColor: '#F5FCFF',
   },
   welcome: {
     fontSize: 20,
@@ -39,16 +40,7 @@ const styles = StyleSheet.create({
 
 const App = () => (
   <View style={styles.container}>
-    <Text style={styles.welcome}>
-          Welcome to React Native! ctr+m for hot reload!
-    </Text>
-    <Text style={styles.instructions}>
-        To get started, edit App.js
-    </Text>
-    <Text style={styles.instructions}>
-      {instructions}
-    </Text>
-    <Assist />
+    <R />
   </View>
 );
 

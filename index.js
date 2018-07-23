@@ -3,4 +3,4 @@ import SystemSettings from './SystemSettings';
 import Aibot from './Aibot';
 import App from './App';
 
-AppRegistry.registerComponent('aiapp', () => Aibot);
+AppRegistry.registerComponent('aiapp', () => App);
