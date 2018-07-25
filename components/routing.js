@@ -3,6 +3,8 @@ import { View, Text } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import HomeScreen from './Home';
 import ChatUI from './chat_ui';
+import SystemSettings from '../SystemSettings';
+import Calc from '../Calc';
 
 
 const RootStack = StackNavigator(
@@ -12,6 +14,12 @@ const RootStack = StackNavigator(
     },
     chat: {
       screen: ChatUI,
+    },
+    setting: {
+      screen: SystemSettings,
+    },
+    calculator: {
+      screen: Calc,
     },
   },
   {

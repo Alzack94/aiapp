@@ -3,7 +3,7 @@ package com.aiapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import de.innfactory.apiai.RNApiAiPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
 import de.innfactory.apiai.RNApiAiPackage;
 import com.ninty.system.setting.SystemSettingPackage;
 import net.no_mad.tts.TextToSpeechPackage;
@@ -28,6 +28,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new VectorIconsPackage(),
             new RNApiAiPackage(),
             new SystemSettingPackage(),
           new TextToSpeechPackage(),

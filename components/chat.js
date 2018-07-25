@@ -5,7 +5,8 @@ import {
   Platform,
   StyleSheet,
   Text,
-  View, AsyncStorage, Alert,
+  View, 
+  Linking, AsyncStorage, Alert,
 } from 'react-native';
 import { Dialogflow_V2 } from 'react-native-dialogflow';
 import Tts from 'react-native-tts';
@@ -78,32 +79,81 @@ class Chat extends React.Component {
 
   answerDemo(messages) {
     let query = messages[0].text;
+    let re = new RegExp(/^Open\s+.*$/);
     if (messages.length > 0) {
-      Dialogflow_V2.requestQuery(query, result => {this.setState({ result: JSON.stringify(result)}); this.handleResponse(this.state.result)}, error => {
+      if (re.test(this.capitalizeFirstLetter(query)))
+      {
+        if (this.capitalizeFirstLetter(query) === 'Open settings') {
+          this.props.navigation.navigate('setting');
+        }
+        if (this.capitalizeFirstLetter(query) === 'Open calculator') {
+          this.props.navigation.navigate('calculator');
+        }
+        if (this.capitalizeFirstLetter(query) === 'Open whatsapp') {
+          Linking.openURL('market://');
+        }
+        if (this.capitalizeFirstLetter(query) === 'Open browser') {
+          Linking.openURL('https://www.google.com');
+        }
+        if (this.capitalizeFirstLetter(query) === 'Open mail') {
+          Linking.openURL('mailto:');
+        }
+        if (this.capitalizeFirstLetter(query) === 'Open message') {
+          Linking.openURL('sms:');
+        }
+        if (this.capitalizeFirstLetter(query) === 'Open map') {
+          Linking.openURL('geo:');
+        }
+        Tts.speak('Take a look');
+        this.handleResponse(null);
+      }
+      else {
+        Dialogflow_V2.requestQuery(query, result => {this.setState({ result: JSON.stringify(result)}); this.handleResponse(this.state.result)}, error => {
         this.setState({ result: JSON.stringify(error) });
         Alert.alert(
         // This is Alert Dialog Title
-          'CONNECTION PROBLEM',
-          // This is Alert Dialog Message.
-          'You are offline',
-          [
-          // First Text Button in Alert Dialog.
-            { text: 'START CHATTING', onPress: () => this.props.navigation.navigate('Home') },
-          ],
+        'CONNECTION PROBLEM',
+        // This is Alert Dialog Message.
+        'You are offline',
+            [
+        // First Text Button in Alert Dialog.
+              { text: 'START CHATTING', onPress: () => this.props.navigation.navigate('Home') },
+            ],
+          );
+        }
         );
       }
-    );
     }
     else {
       Alert.alert('Not found');
+    }
+    if (this.capitalizeFirstLetter(query) === 'Call 121') {
+      Linking.openURL('tel:1234567890');
     }
   }
 
   handleResponse(res) {
     // let resjson = JSON.stringify(res);
-    let json = JSON.parse(res);
-    // Alert.alert(res);
-    let speech = this.capitalizeFirstLetter(json.queryResult.fulfillmentMessages[0].text.text[0]);
+    let speech;
+
+    if (res !== null) {
+      // Alert.alert(res);
+      let json = JSON.parse(res);
+      speech = this.capitalizeFirstLetter(json.queryResult.fulfillmentMessages[0].text.text[0]);
+      Tts.getInitStatus().then(() => {
+        // Tts.setDefaultVoice('com.apple.ttsbundle.Samantha-compact');
+        Tts.setDefaultLanguage('en-IE');
+        Tts.setDucking(true);
+        Tts.speak(json.queryResult.fulfillmentMessages[0].text.text[0]);
+      }, (err) => {
+        if (err.code === 'no_engine') {
+          Tts.requestInstallEngine();
+        }
+      });
+    }
+    else {
+      speech = '';
+    }
     let obj = [{
       text: speech,
       user: {
@@ -116,24 +166,11 @@ class Chat extends React.Component {
     }];
     this.localStorage(obj);
 
-    Tts.getInitStatus().then(() => {
-      // Tts.setDefaultVoice('com.apple.ttsbundle.Samantha-compact');
-      Tts.setDefaultLanguage('en-IE');
-      Tts.setDucking(true);
-      Tts.speak(json.queryResult.fulfillmentMessages[0].text.text[0]);
-    }, (err) => {
-      if (err.code === 'no_engine') {
-        Tts.requestInstallEngine();
-      }
-    });
-
     this.setState((previousState) => {
       return {
         messages: GiftedChat.append(previousState.messages, obj),
       };
     });
-
-
   }
 
   localStorage(data) {
@@ -147,9 +184,20 @@ class Chat extends React.Component {
     return (
       <Bubble
         {...props}
+        textStyle={{
+          left: {
+            color: '#e67e22',
+          },
+          right: {
+            color: '#1fbad6',
+          },
+        }}
         wrapperStyle={{
           left: {
-            backgroundColor: '#A3E47D',
+            backgroundColor: '#161629',
+          },
+          right: {
+            backgroundColor: '#161629',
           },
         }}
       />
@@ -161,7 +209,6 @@ class Chat extends React.Component {
       <GiftedChat
         messages={this.state.messages}
         onSend={this.onSend}
-
         user={{
           _id: 1, avatar: user_icon, // sent messages should have same user._id
         }}
