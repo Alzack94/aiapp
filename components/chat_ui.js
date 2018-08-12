@@ -1,6 +1,7 @@
 import React from 'react';
 import { Image, Button, View, Text, NetInfo, AsyncStorage } from 'react-native';
 import { Icon } from 'react-native-elements';
+
 import robo from '../images/robo.jpg';
 import Chat from './chat';
 

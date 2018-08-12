@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import SplashScreen from 'react-native-splash-screen';
+
 import HomeScreen from './Home';
 import ChatUI from './chat_ui';
 import SystemSettings from '../SystemSettings';
@@ -24,13 +26,18 @@ const RootStack = StackNavigator(
   },
   {
     headerMode: 'none',
-    initialRouteName: 'Home',
+    initialRouteName: 'chat',
   },
 );
 
 
-const R = () => (
-  <RootStack />
-);
+class R extends React.Component {
+  componentDidMount() {
+    SplashScreen.hide();
+  }
+  render() {
+    return <RootStack />;
+  }
+}
 
 export default R;
