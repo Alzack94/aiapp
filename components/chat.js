@@ -1,12 +1,9 @@
 import { GiftedChat, Bubble } from 'react-native-gifted-chat';
 import React from 'react';
 import {
-  KeyboardAvoidingView, 
-  Platform,
-  StyleSheet,
-  Text,
-  View, 
-  Linking, AsyncStorage, Alert,
+  Linking,
+  AsyncStorage,
+  Alert,
 } from 'react-native';
 import { Dialogflow_V2 } from 'react-native-dialogflow';
 import Tts from 'react-native-tts';
@@ -127,8 +124,12 @@ class Chat extends React.Component {
     else {
       Alert.alert('Not found');
     }
-    if (this.capitalizeFirstLetter(query) === 'Call 121') {
-      Linking.openURL('tel:1234567890');
+    let myRe = /Call\s(\d+)/g;
+    if (this.capitalizeFirstLetter(query).match(myRe)) {
+      let mynum = this.capitalizeFirstLetter(query).match(myRe);
+      mynum = mynum[0].substring(mynum[0].indexOf(' ') + 1);
+      //Alert.alert(mynum);
+      Linking.openURL('tel:'+mynum);
     }
   }
 

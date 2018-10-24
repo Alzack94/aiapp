@@ -1,5 +1,4 @@
 import React from 'react';
-import { View, Text } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import SplashScreen from 'react-native-splash-screen';
 
